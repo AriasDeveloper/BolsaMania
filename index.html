@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BolsaMania | Acceso</title>
+    <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+  <main class="card">
+    <h1>BolsaMania</h1>
+    <p class="intro">Administra tu cuenta de forma segura</p>
+
+    <div class="tabs" role="tablist">
+      <button class="tab active" type="button" data-target="login" role="tab">Ingresar</button>
+      <button class="tab" type="button" data-target="register" role="tab">Registrarse</button>
+    </div>
+
+    <form id="login" class="form active">
+      <label for="login-cedula">Cédula</label>
+      <input id="login-cedula" name="cedula" type="text" inputmode="numeric" pattern="[0-9]+" placeholder="Ingresa tu cédula" required>
+      <label for="login-password">Contraseña</label>
+      <input id="login-password" name="password" type="password" placeholder="Ingresa tu contraseña" minlength="6" required>
+      <button class="submit" type="submit">Ingresar</button>
+    </form>
+
+    <form id="register" class="form">
+      <label for="register-cedula">Cédula</label>
+      <input id="register-cedula" name="cedula" type="text" inputmode="numeric" pattern="[0-9]+" placeholder="Ingresa tu cédula" required>
+      <label for="register-password">Contraseña</label>
+      <input id="register-password" name="password" type="password" placeholder="Crea una contraseña" minlength="6" required>
+      <small>Debe contener al menos 6 caracteres.</small>
+      <label for="confirm-password">Confirmar contraseña</label>
+      <input id="confirm-password" name="confirmPassword" type="password" placeholder="Repite tu contraseña" minlength="6" required>
+      <button class="submit" type="submit">Crear cuenta</button>
+    </form>
+    <p id="message" class="message" aria-live="polite"></p>
+  </main>
+
+  <script>
+    const tabs = document.querySelectorAll('.tab');
+    const forms = document.querySelectorAll('.form');
+    const message = document.getElementById('message');
+
+    tabs.forEach(tab => tab.addEventListener('click', () => {
+      tabs.forEach(item => item.classList.toggle('active', item === tab));
+      forms.forEach(form => form.classList.toggle('active', form.id === tab.dataset.target));
+      message.textContent = '';
+    }));
+
+    document.querySelectorAll('form').forEach(form => form.addEventListener('submit', event => {
+      event.preventDefault();
+      if (form.id === 'register' && form.password.value !== form.confirmPassword.value) {
+        message.textContent = 'Las contraseñas no coinciden.';
+        return;
+      }
+      message.textContent = form.id === 'login'
+        ? 'Datos listos para iniciar sesión.'
+        : 'Registro listo para ser enviado.';
+    }));
+  </script>
+</body>
+</html>
